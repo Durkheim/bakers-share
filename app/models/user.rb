@@ -16,5 +16,5 @@ class User < ActiveRecord::Base
 
   #VALIDATIONS
   validates :username, :uniqueness => true, :presence => true
-  validates :email, :uniqueness => true, :format => /.+@.+\..+/
+  validates :email, :uniqueness => true, :presence => true, :format => /.+@.+\..+/
 end
