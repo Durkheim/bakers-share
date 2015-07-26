@@ -7,4 +7,8 @@ class Recipe < ActiveRecord::Base
   has_many :ingredients
   has_many :directions
   has_many :recipe_photos
+
+  validates :title, :presence => true
+  validates :user, :presence => true
+
 end
