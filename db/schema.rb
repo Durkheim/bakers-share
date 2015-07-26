@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(version: 20150726072909) do
 
   create_table "favorite_recipes", force: :cascade do |t|
     t.integer  "user_id"
+    t.integer  "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "favorite_recipes", ["recipe_id"], name: "index_favorite_recipes_on_recipe_id"
   add_index "favorite_recipes", ["user_id"], name: "index_favorite_recipes_on_user_id"
 
   create_table "ingredient_measurements", force: :cascade do |t|
@@ -75,10 +77,12 @@ ActiveRecord::Schema.define(version: 20150726072909) do
   create_table "replies", force: :cascade do |t|
     t.text     "text"
     t.integer  "replier_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "comments_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
+  add_index "replies", ["comments_id"], name: "index_replies_on_comments_id"
   add_index "replies", ["replier_id"], name: "index_replies_on_replier_id"
 
   create_table "users", force: :cascade do |t|
