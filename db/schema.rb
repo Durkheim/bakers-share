@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726072909) do
+ActiveRecord::Schema.define(version: 20150726094240) do
 
   create_table "comments", force: :cascade do |t|
     t.text     "text"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 20150726072909) do
   add_index "comments", ["commenter_id"], name: "index_comments_on_commenter_id"
   add_index "comments", ["recipe_id"], name: "index_comments_on_recipe_id"
 
+  create_table "directions", force: :cascade do |t|
+    t.text     "text"
+    t.integer  "recipe_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "directions", ["recipe_id"], name: "index_directions_on_recipe_id"
+
   create_table "favorite_recipes", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "recipe_id"
@@ -35,15 +44,23 @@ ActiveRecord::Schema.define(version: 20150726072909) do
   add_index "favorite_recipes", ["user_id"], name: "index_favorite_recipes_on_user_id"
 
   create_table "ingredient_measurements", force: :cascade do |t|
+    t.integer  "recipe_id"
+    t.integer  "measurement_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "ingredient_measurements", ["measurement_id"], name: "index_ingredient_measurements_on_measurement_id"
+  add_index "ingredient_measurements", ["recipe_id"], name: "index_ingredient_measurements_on_recipe_id"
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "ingredients", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "ingredients", ["recipe_id"], name: "index_ingredients_on_recipe_id"
 
   create_table "measurements", force: :cascade do |t|
     t.string   "unit_of_measure"
@@ -53,15 +70,19 @@ ActiveRecord::Schema.define(version: 20150726072909) do
 
   create_table "quantities", force: :cascade do |t|
     t.integer  "amount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "ingredient_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "recipe_photos", force: :cascade do |t|
     t.string   "filename"
+    t.integer  "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "recipe_photos", ["recipe_id"], name: "index_recipe_photos_on_recipe_id"
 
   create_table "recipes", force: :cascade do |t|
     t.string   "title"
@@ -77,12 +98,12 @@ ActiveRecord::Schema.define(version: 20150726072909) do
   create_table "replies", force: :cascade do |t|
     t.text     "text"
     t.integer  "replier_id"
-    t.integer  "comments_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "replies", ["comments_id"], name: "index_replies_on_comments_id"
+  add_index "replies", ["comment_id"], name: "index_replies_on_comment_id"
   add_index "replies", ["replier_id"], name: "index_replies_on_replier_id"
 
   create_table "users", force: :cascade do |t|

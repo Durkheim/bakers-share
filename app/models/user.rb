@@ -9,4 +9,5 @@ class User < ActiveRecord::Base
   has_many :comments_on_recipes, through: :recipes, source: :comments
   has_many :ingredients, through: :recipes
   has_many :recipes_favorited, through: :favorite_recipes, source: :recipe
+  has_many :comments_replied_to, through: :replies, source: :comment
 end
